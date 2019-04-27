@@ -1,1 +1,28 @@
-t:test
+version: "3"
+
+services:
+
+    php-fpm:
+        build: ./Dockerfiles/webserver
+        working_dir: /usr/var/www/
+        container_name: 'symfony-php-fpm'
+        ports:
+            - "81:80"
+
+    apache:
+        image: httpd:2.4-alpine
+        container_name: symfony-apache
+        working_dir: /usr/var/www/
+        volumes:
+            - ./Symfony:/usr/var/www/
+        ports:
+            - "82:80"
+
+    mysql:
+        image: httpd:2.4-alpine
+        container_name: symfony-mysql
+        working_dir: /usr/var/www/
+        volumes:
+            - ./Symfony:/usr/var/www/
+        ports:
+            - "83:80"
