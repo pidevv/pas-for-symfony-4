@@ -4,7 +4,8 @@ RUN apt-get update
 
 RUN docker-php-ext-install bcmath mbstring
 
-RUN docker-php-ext-install intl
+# Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN docker-php-ext-install pdo_mysql
 
