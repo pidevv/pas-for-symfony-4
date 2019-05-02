@@ -10,7 +10,6 @@ services:
             - "81:80"
         volumes:
             - ./Symfony:/var/www/
-
     apache:
         build: ./Dockerfiles/webserver
         container_name: symfony-apache
@@ -19,10 +18,24 @@ services:
             - ./Symfony:/var/www/
         ports:
             - "82:80"
-
-#    mysql:
-#        image:  mysql:5.7
-#        container_name: symfony-mysql
-#        working_dir: /var/www/
-#        ports:
-#            - "83:80"
+    mysql:
+        image:  mysql:5.7
+        container_name: symfony-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: pasforsymfony
+            MYSQL_DATABASE: pasforsymfony
+            MYSQL_USER: pasforsymfony
+            MYSQL_PASSWORD: pasforsymfony
+        volumes:
+            - ./Mysql/data/mysql:/var/lib/mysql
+            - ./Logs/mysql:/var/log/mysql
+        ports:
+            - "83:80"
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: 'symfony-phpmyadmin'
+        environment:
+          PMA_HOST: symfony-mysql
+          PMA_PORT: 3306
+        ports:
+          - '84:80'
