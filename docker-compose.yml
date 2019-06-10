@@ -5,9 +5,9 @@ services:
     php-fpm:
         build: ./Dockerfiles/php-fpm
         working_dir: /var/www/
-        container_name: 'symfony-php-fpm'
+        container_name: "${PROJECT_NAME}${PROJECT_SEPARATOR}php-fpm"
         ports:
-            - "81:80"
+            - ${PHP_FPM_HOST_PORT}:${PHP_FPM_CONTAINER_PORT}
         volumes:
             - ./Symfony:/var/www/
     apache:
@@ -17,10 +17,10 @@ services:
             - ./Apache:/etc/apache2/sites-enabled
             - ./Symfony:/var/www/
         ports:
-            - "82:80"
+            - ${APACHE_HOST_PORT}:${APACHE_CONTAINER_PORT}
     mysql:
         image:  mysql:5.7
-        container_name: symfony-mysql
+        container_name: "${PROJECT_NAME}${PROJECT_SEPARATOR}mysql"
         environment:
             MYSQL_ROOT_PASSWORD: pasforsymfony
             MYSQL_DATABASE: pasforsymfony
@@ -30,12 +30,12 @@ services:
             - ./Mysql/data/mysql:/var/lib/mysql
             - ./Logs/mysql:/var/log/mysql
         ports:
-            - "83:80"
+            - ${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_VOLUME}
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: 'symfony-phpmyadmin'
+        container_name: "${PROJECT_NAME}${PROJECT_SEPARATOR}phpmyadmin"
         environment:
-          PMA_HOST: symfony-mysql
+          PMA_HOST: "${PROJECT_NAME}${PROJECT_SEPARATOR}mysql"
           PMA_PORT: 3306
         ports:
-          - '84:80'
+            - ${PHPMYADMIN_HOST_PORT}:${PHPMYADMIN_CONTAINER_PORT}

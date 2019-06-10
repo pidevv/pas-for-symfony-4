@@ -11,18 +11,12 @@ RUN docker-php-ext-install bcmath mbstring
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN docker-php-ext-install pdo_mysql
-
-RUN docker-php-ext-install pdo
-
-RUN docker-php-ext-install opcache
-
-RUN apt-get install -y libpq-dev
-
-# Install git
-RUN apt-get install -y git
-
-# Install xdebug
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+#  Install php extension and git
+RUN docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install opcache \
+    && apt-get install -y libpq-dev \
+    && apt-get install -y git \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
