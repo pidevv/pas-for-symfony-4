@@ -6,6 +6,8 @@ services:
         build: ./Dockerfiles/php-fpm
         working_dir: /var/www/
         container_name: "${PROJECT_NAME}${PROJECT_SEPARATOR}php-fpm"
+        environment:
+          USER_NAME: ${USER_NAME}
         ports:
             - ${PHP_FPM_HOST_PORT}:${PHP_FPM_CONTAINER_PORT}
         volumes:
@@ -13,6 +15,8 @@ services:
     apache:
         build: ./Dockerfiles/webserver
         container_name: symfony-apache
+        environment:
+            USER_NAME: ${USER_NAME}
         volumes:
             - ./Apache:/etc/apache2/sites-enabled
             - ./Symfony:/var/www/
